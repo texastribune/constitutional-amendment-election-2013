@@ -38,6 +38,10 @@ var Propsition = Backbone.Model.extend({
 
     isPassing: function() {
         return this.get('in_favor') > this.get('against');
+    },
+
+    getBounds: function() {
+        return this.get('layer').getBounds();
     }
 });
 
@@ -52,7 +56,12 @@ var Results = Backbone.Collection.extend({
 var Propsitions = Backbone.Collection.extend({
     model: Propsition,
 
-    url: '//tranquil-sierra-7858.herokuapp.com/api/race/?callback=?'
+    url: '//tranquil-sierra-7858.herokuapp.com/api/race/?callback=?',
+
+    selectCounty: function(val) {
+        var active = this.findWhere({county: val});
+        mapView.setBounds(active.getBounds());
+    }
 });
 
 var results = new Results();
@@ -70,6 +79,10 @@ var MapView = Backbone.View.extend({
         this.map.setView([31.35, -99.64], 6);
         this.map.scrollWheelZoom.disable();
         this.baseLayer.addTo(this.map);
+    },
+
+    setBounds: function(bounds) {
+        this.map.fitBounds(bounds);
     }
 });
 
@@ -264,9 +277,7 @@ var CountySelectorView = Backbone.View.extend({
             results.fetch({data: {county: this.$el.val()}});
         }
 
-        var selected = propositions.findWhere({county: val});
-
-        mapView.map.fitBounds(selected.get('layer').getBounds());
+        propositions.selectCounty(val);
     }
 });
 

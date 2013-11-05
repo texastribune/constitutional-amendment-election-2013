@@ -263,12 +263,10 @@ var CountySelectorView = Backbone.View.extend({
 
     selectCounty: function(e) {
         var val = this.$el.val();
-
-        if (val === 'All COUNTIES') {
-            results.fetch();
-        } else {
-            results.fetch({data: {county: this.$el.val()}});
+        if (val === '') {
+          return;
         }
+        results.fetch({data: {county: this.$el.val()}});
 
         propositions.selectCounty(val);
     }

@@ -30,7 +30,10 @@ var Propsition = Backbone.Model.extend({
         var found = _.find(counties.features, function(c) {
             return c.properties.key === here.get('county');
         });
-        if(found) { this.set('shape', found.geometry); }
+        if(found) {
+            this.set('shape', found.geometry);
+            this.set('layer', L.geoJson(this.get('shape')));
+        }
     },
 
     isPassing: function() {
@@ -126,7 +129,6 @@ var GeolocateView = Backbone.View.extend({
     }
 });
 
-
 var ShapeView = Backbone.View.extend({
     baseStyle: {
         weight: 2,
@@ -136,13 +138,7 @@ var ShapeView = Backbone.View.extend({
 
     initialize: function() {
         this.listenTo(this.model, 'change', this.alterAppearance);
-        this.render();
         this.alterAppearance();
-    },
-
-    render: function() {
-        this.layer = L.geoJson(this.model.get('shape'), this.baseStyle);
-        return this;
     },
 
     alterAppearance: function() {
@@ -154,7 +150,7 @@ var ShapeView = Backbone.View.extend({
             color = '#929aa3';
         }
 
-        this.layer.setStyle(
+        this.model.get('layer').setStyle(
             _.extend(this.baseStyle, {fillColor
                 : color})
         );
@@ -170,7 +166,7 @@ var AllShapesView = Backbone.View.extend({
         propositions.each(function(p) {
             if (p.get('shape')) {
                 var shape = new ShapeView({model: p});
-                mapView.map.addLayer(shape.layer);
+                mapView.map.addLayer(shape.model.get('layer'));
             }
         });
     }
@@ -267,6 +263,10 @@ var CountySelectorView = Backbone.View.extend({
         } else {
             results.fetch({data: {county: this.$el.val()}});
         }
+
+        var selected = propositions.findWhere({county: val});
+
+        mapView.map.fitBounds(selected.get('layer').getBounds());
     }
 });
 

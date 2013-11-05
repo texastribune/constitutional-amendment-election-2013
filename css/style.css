@@ -57,8 +57,22 @@
 .grid.by-county .cell.map-container { padding-right: 0; }
 .grid.by-county .cell:last-of-type { padding-right: 1em; }
 
-.by-county .sidebar {
+
+section.by-county {
+  padding-top: 1em;
   background-color: rgb(240, 240, 240);
+}
+
+section.by-county > h2 {
+  text-align: center;
+  width: 100%;
+  font-size: 1.4em;
+  font-weight: bold;
+  font-family: Helvetica, sans-serif;
+}
+
+.location-selector,
+.by-county .sidebar {
   padding: 1em;
 }
 

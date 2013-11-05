@@ -62,6 +62,20 @@
   padding: 1em;
 }
 
+.by-county .sidebar .summary {
+  font-family: Helvetica;
+}
+.by-county .sidebar .summary h2 {
+  font-size: 1.2em;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.summary table { width: 100%; }
+.summary table th { font-weight: normal; font-style: italic; }
+.summary table td { text-align: right; }
+
+
 .location-selector div,
 .location-selector select,
 .location-selector input,

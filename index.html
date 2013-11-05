@@ -333,7 +333,21 @@
     </div>
 
     <script type="text/template" id="result-header-template">
-        <%= county %> - Precincts Reporting: <%= precincts_reported %>/<%= total_precincts %>
+      <div class="summary">
+        <h2><%= county %></h2>
+
+        <table class="tt-table">
+          <tr>
+            <th>Precincts Reporting</th>
+            <td><%= precincts_reported %>/<%= total_precincts %></td>
+          </tr>
+
+          <tr>
+            <th>Total Votes</th>
+            <td><%= total_votes %></td>
+          </tr>
+        </table>
+      </div>
     </script>
 
     <script type="text/template" id="result-template">

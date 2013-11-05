@@ -1,0 +1,9 @@
+{
+  "name": "constitutional-amendment-election-2013",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-cssmin": "~0.7.0"
+  }
+}

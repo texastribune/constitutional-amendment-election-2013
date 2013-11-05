@@ -142,14 +142,7 @@ var ShapeView = Backbone.View.extend({
     },
 
     alterAppearance: function() {
-        var color;
-
-        if (this.model.isPassing()) {
-            color = '#4c5a69';
-        } else {
-            color = '#929aa3';
-        }
-
+        var color = this.model.isPassing() ? '#117bb8' : '#a98d5a';
         this.model.get('layer').setStyle(
             _.extend(this.baseStyle, {fillColor
                 : color})

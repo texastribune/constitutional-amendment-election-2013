@@ -42,20 +42,15 @@
 
     <section class="by-county">
 
-      <div class="grid">
-          <dl class="altered-select-item">
-              <dt>Select </dt>
-          </dl>
-      </div>
-
       <div class="grid by-county">
-        <div class="cell w-9">
+        <div class="cell w-9 map-container">
           <div class="map" id="map"></div>
         </div>
 
         <div class="cell w-3 sidebar">
           <div class="location-selector">
-            <select id="county-select" class="option-select">
+            <div>
+              <select id="county-select" class="option-select">
                 <option value="">Choose a county</option>
                 <option value="ANDERSON">Anderson County</option>
                 <option value="ANDREWS">Andrews County</option>
@@ -311,7 +306,18 @@
                 <option value="YOUNG">Young County</option>
                 <option value="ZAPATA">Zapata County</option>
                 <option value="ZAVALA">Zavala County</option>
-            </select>
+              </select>
+            </div>
+
+            <div>or</div>
+
+            <div>
+              <input type="text" placeholder="Enter your zipcode">
+            </div>
+
+            <div>or</div>
+
+            <div><button>Locate me</button></div>
           </div>
 
           <div class="result-container" id="result-container"></div>

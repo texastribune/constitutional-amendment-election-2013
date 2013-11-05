@@ -48,6 +48,25 @@
     font-size: 16px;
     color: #222 !important;
     width: 100%;
-    margin: 0 0 10px 0;
+    margin: 0;
     padding: 0;
 }
+
+
+/* Make sure that the map has no padding */
+.grid.by-county .cell.map-container { padding-right: 0; }
+.grid.by-county .cell:last-of-type { padding-right: 1em; }
+
+.by-county .sidebar {
+  background-color: rgb(240, 240, 240);
+  padding: 1em;
+}
+
+.location-selector div,
+.location-selector select,
+.location-selector input,
+.location-selector button {
+  width: 100%;
+}
+
+.location-selector div { text-align: center; margin-bottom: 0.5em;}

@@ -57,7 +57,11 @@
 .grid.by-county .cell.map-container { padding-right: 0; }
 .grid.by-county .cell:last-of-type { padding-right: 1em; }
 
-section.statewide { margin-bottom: 2em; }
+
+section.intro,
+section.statewide,
+section.by-county { margin-bottom: 2em; }
+
 section.statewide { padding: 0 3em; }
 section.by-county {
   padding-top: 1em;

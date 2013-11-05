@@ -15,6 +15,29 @@ var Result = Backbone.Model.extend({
     }
 });
 
+var Propsition = Backbone.Model.extend({
+    parse: function(res) {
+        res['in_favor'] = _.random(0, 400);
+        res['against'] = _.random(0, 400);
+
+        return res;
+    },
+
+    idAttribute: 'county',
+
+    initialize: function() {
+        var here = this;
+        var found = _.find(counties.features, function(c) {
+            return c.properties.key === here.get('county');
+        });
+        if(found) { this.set('shape', found.geometry); }
+    },
+
+    isPassing: function() {
+        return this.get('in_favor') > this.get('against');
+    }
+});
+
 // collections
 
 var Results = Backbone.Collection.extend({
@@ -23,25 +46,27 @@ var Results = Backbone.Collection.extend({
     url: '//tranquil-sierra-7858.herokuapp.com/api/location/?callback=?'
 });
 
+var Propsitions = Backbone.Collection.extend({
+    model: Propsition,
+
+    url: '//tranquil-sierra-7858.herokuapp.com/api/race/?callback=?'
+});
+
 var results = new Results();
+var stateResults = new Results();
+var propositions = new Propsitions();
 
 // views
 
 var MapView = Backbone.View.extend({
     initialize: function() {
         this.map = L.mapbox.map('map');
-        this.baseLayer = L.mapbox.tileLayer('texastribune.map-sit023yd', {
+        this.baseLayer = L.mapbox.tileLayer('texastribune.map-0jxemcn5', {
             detectRetina: true
         });
-        this.map.setView([31.35, -99.64], 5);
+        this.map.setView([31.35, -99.64], 6);
         this.map.scrollWheelZoom.disable();
         this.baseLayer.addTo(this.map);
-    }
-});
-
-var LayerView = Backbone.View.extend({
-    initialize: function() {
-        this.gjLayer = L.geoJson();
     }
 });
 
@@ -96,6 +121,56 @@ var GeolocateView = Backbone.View.extend({
 
                     locate([lon, lat]);
                 }
+            }
+        });
+    }
+});
+
+
+var ShapeView = Backbone.View.extend({
+    baseStyle: {
+        weight: 2,
+        color: 'rgb(26, 26, 26)',
+        fillOpacity: 0.8
+    },
+
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.alterAppearance);
+        this.render();
+        this.alterAppearance();
+    },
+
+    render: function() {
+        this.layer = L.geoJson(this.model.get('shape'), this.baseStyle);
+        return this;
+    },
+
+    alterAppearance: function() {
+        var color;
+
+        if (this.model.isPassing()) {
+            color = '#4c5a69';
+        } else {
+            color = '#929aa3';
+        }
+
+        this.layer.setStyle(
+            _.extend(this.baseStyle, {fillColor
+                : color})
+        );
+    }
+});
+
+var AllShapesView = Backbone.View.extend({
+    initialize: function() {
+        this.listenTo(propositions, 'reset', this.render);
+    },
+
+    render: function() {
+        propositions.each(function(p) {
+            if (p.get('shape')) {
+                var shape = new ShapeView({model: p});
+                mapView.map.addLayer(shape.layer);
             }
         });
     }
@@ -163,6 +238,20 @@ var ResultContainerView = Backbone.View.extend({
     }
 });
 
+var StateResultContainerView = Backbone.View.extend({
+    el: '#state-result-container',
+
+    initialize: function() {
+        this.listenTo(stateResults, 'reset', this.render);
+    },
+
+    render: function() {
+        var compiledView = new CompiledResultView({collection: stateResults});
+        this.$el.append(compiledView.render().el);
+        return this;
+    }
+});
+
 var CountySelectorView = Backbone.View.extend({
     el: '#county-select',
 
@@ -185,8 +274,10 @@ var CountySelectorView = Backbone.View.extend({
 
 var mapView = new MapView();
 var resultContainerView = new ResultContainerView();
+var stateResultsContainerView = new StateResultContainerView();
 var countySelectorView = new CountySelectorView();
+var allShapesView = new AllShapesView();
 
+stateResults.fetch({reset: true});
 results.fetch({reset: true});
-
-
+propositions.fetch({reset: true, data: {prop: 6}});

@@ -33,8 +33,26 @@
     </div>
 
     <div class="grid">
+        <div class="cell w-7">
+            <div class="result-container" id="result-container"></div>
+        </div>
+        <div class="cell w-5">
+            <div class="map" id="map"></div>
+        </div>
+    </div>
+
+    <div class="grid">
         Source: <a href="http://www.sos.state.tx.us/">Texas Secretary of State</a>
     </div>
+
+    <script type="text/template" id="result-template">
+
+    <div class="row">
+        <div class="for-fill" style="width: <%= for_votes %>%;"></div>
+    </div>
+
+    </script>
+
 </section>
 </div>
 
@@ -52,7 +70,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 
 <!-- data -->
-<script src="data/navigators.js"></script>
+<script src="data/counties.js"></script>
 
 <script src="js/script.js"></script>
 </body>

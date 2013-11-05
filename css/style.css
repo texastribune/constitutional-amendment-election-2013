@@ -10,6 +10,7 @@
 
 .row {
     position: relative;
+    width: 100%;
     padding: 10px 0;
     margin: 0 0 5px 0;
     background-color: #BD5151;
@@ -21,4 +22,29 @@
     left: 0;
     padding: 10px 0;
     background-color: #7AC088;
+}
+
+.altered-select-item {
+    font-size: 1em;
+    float: left;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    margin-top: 0.25em;
+    margin-right: 2em;
+}
+
+.altered-select-item dt {
+    padding-right: 0.5em;
+    color: #666666 !important;
+    margin-left: 0;
+    text-transform: none;
+    margin-bottom: 0.5em;
+}
+
+.option-select {
+    font-size: 16px;
+    color: #222 !important;
+    width: 100%;
+    margin: 0 0 10px 0;
+    padding: 0;
 }

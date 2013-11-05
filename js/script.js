@@ -1,25 +1,29 @@
 // models
 
-var County = Backbone.Model.extend({
+var Result = Backbone.Model.extend({
     parse: function(res) {
-        _.each(res.properties, function(val, key) {
-            res[key] = val;
-        });
+        res['in_favor'] = _.random(0, 200);
+        res['total_votes'] = _.random(200, 400);
 
-        res['for_votes'] = _.random(0, 100);
-        delete res.properties;
         return res;
+    },
+
+    idAttribute: 'race',
+
+    getPercentageFor: function() {
+        return (this.get('in_favor') / this.get('total_votes')) * 100;
     }
 });
 
 // collections
 
-var Counties = Backbone.Collection.extend({
-    model: County
+var Results = Backbone.Collection.extend({
+    model: Result,
+
+    url: '//tranquil-sierra-7858.herokuapp.com/api/location/?callback=?'
 });
 
-var counties = new Counties();
-var activeRegion = new Backbone.Collection();
+var results = new Results();
 
 // views
 
@@ -97,10 +101,29 @@ var GeolocateView = Backbone.View.extend({
     }
 });
 
+var ResultHeaderView = Backbone.View.extend({
+    tagName: 'div',
+
+    template: _.template($('#result-header-template').html()),
+
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+    },
+
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this;
+    }
+});
+
 var ResultView = Backbone.View.extend({
     tagName: 'div',
 
     template: _.template($('#result-template').html()),
+
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+    },
 
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -128,13 +151,33 @@ var ResultContainerView = Backbone.View.extend({
     el: '#result-container',
 
     initialize: function() {
-        this.listenTo(activeRegion, 'reset', this.render);
+        this.listenTo(results, 'reset', this.render);
     },
 
     render: function() {
-        var compiledView = new CompiledResultView({collection: activeRegion});
-        this.$el.html(compiledView.render().el);
+        var headerView = new ResultHeaderView({model: results.at(0)});
+        var compiledView = new CompiledResultView({collection: results});
+        this.$el.append(headerView.render().el);
+        this.$el.append(compiledView.render().el);
         return this;
+    }
+});
+
+var CountySelectorView = Backbone.View.extend({
+    el: '#county-select',
+
+    events: {
+        'change': 'selectCounty'
+    },
+
+    selectCounty: function(e) {
+        var val = this.$el.val();
+
+        if (val === 'All COUNTIES') {
+            results.fetch();
+        } else {
+            results.fetch({data: {county: this.$el.val()}});
+        }
     }
 });
 
@@ -142,6 +185,8 @@ var ResultContainerView = Backbone.View.extend({
 
 var mapView = new MapView();
 var resultContainerView = new ResultContainerView();
+var countySelectorView = new CountySelectorView();
 
-counties.add(counties_data.features, {parse: true});
-activeRegion.reset(counties.models);
+results.fetch({reset: true});
+
+

@@ -312,14 +312,6 @@
         </div>
     </div>
 
-<!--     <div class="grid">
-        <div class="result-container" id="result-container"></div>
-    </div>
-
-    <div class="grid">
-        <div class="map" id="map"></div>
-    </div> -->
-
     <div class="grid">
         Source: <a href="http://www.sos.state.tx.us/">Texas Secretary of State</a>
     </div>
@@ -330,8 +322,8 @@
 
     <script type="text/template" id="result-template">
         <div><%= race %></div>
-        <div class="row tt_light_metal bg">
-            <div class="for-fill tt_gunmetal bg" style="width: <%= this.model.getPercentageFor() %>%;"></div>
+        <div class="row">
+            <div class="for-fill" style="width: <%= this.model.getPercentageFor() %>%;"></div>
         </div>
     </script>
 

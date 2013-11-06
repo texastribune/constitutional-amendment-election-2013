@@ -246,3 +246,34 @@ footer.meta a,
 footer.meta { color: #999; }
 
 footer.meta a { font-weight: normal; }
+
+.mapLegendContainer {
+  margin-bottom:10px;
+}
+
+.mapLegendContainer .legendScale ul li {
+  font-size: 0.9em;
+  list-style: none;
+  margin-left: 0;
+  line-height: 18px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.mapLegendContainer .legendScale ul li:last-child {
+  margin-bottom: 0;
+}
+
+.mapLegendContainer ul li span {
+  display: inline;
+  float: left;
+  height: 16px;
+  width: 30px;
+  margin: 0 5px 0 0;
+  border: 1px solid #666666;
+  list-style-type: none;
+  padding-right: 20px;
+}
+.mapLegendContainer a {
+  color: #777;
+}

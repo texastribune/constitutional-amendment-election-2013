@@ -32,8 +32,19 @@ var Propsition = Backbone.Model.extend({
         });
         if(found) {
             this.set('shape', found.geometry);
-            this.set('layer', L.geoJson(this.get('shape')));
+            var name = here.get('county');
+            this.set('layer', L.geoJson(this.get('shape'), {onEachFeature: _.bind(this.clickOnShape, name)}));
         }
+    },
+
+    clickOnShape: function(feature, layer) {
+        var here = this;
+        layer.on('click', function(e) {
+            var name = '';
+            _.each(here, function(a){name=name+a});
+            results.fetch({data: {county: name}});
+            propositions.selectCounty(name);
+        });
     },
 
     isPassing: function() {
@@ -283,3 +294,9 @@ var allShapesView = new AllShapesView();
 stateResults.fetch({reset: true});
 results.fetch({reset: true});
 propositions.fetch({reset: true, data: {prop: 6}});
+
+if (jQuery(window).width() < 540) {
+    $('#map').remove();
+    var resultContainer = $('#result-container').parent()[0];
+    resultContainer.className = 'cell w-3 sidebar';
+}

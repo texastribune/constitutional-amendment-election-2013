@@ -27,6 +27,14 @@ var Result = Backbone.Model.extend({
 
     getPercentageFor: function() {
         return (this.get('in_favor') / this.get('total_votes')) * 100;
+    },
+
+    getPercentageForDisplay: function() {
+      return this.getPercentageFor().toFixed(2);
+    },
+
+    getPercentageAgainstDisplay: function() {
+      return (100 - this.getPercentageForDisplay()).toFixed(2);
     }
 });
 

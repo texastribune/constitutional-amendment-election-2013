@@ -376,8 +376,12 @@
           (For: <%= this.model.get('in_favor') %> / Against <%= this.model.get('against') %>)
         </div>
 
-        <div class="row">
-            <div class="for-fill" style="width: <%= this.model.getPercentageFor() %>%;"></div>
+        <div class="row vote">
+          <div class="for-fill" style="width: <%= this.model.getPercentageFor() %>%;">
+            <span class="in-favor"><%= this.model.getPercentageForDisplay() %>%</span>
+          </div>
+          <span class="against"><%= this.model.getPercentageAgainstDisplay() %>%</span>
+          &nbsp;
         </div>
       </div>
     </script>

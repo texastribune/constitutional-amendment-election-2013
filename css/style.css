@@ -28,12 +28,13 @@
 }
 
 .altered-select-item {
-    font-size: 1em;
+    font-size: 1.2em;
     float: left;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 700;
     margin-top: 0.25em;
     margin-right: 2em;
+    width: 100%;
 }
 
 .altered-select-item dt {
@@ -45,13 +46,15 @@
 }
 
 .option-select {
-    font-size: 16px;
-    color: #222 !important;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    font-size: 17px;
+    line-height: 145%;
+    color: rgb(34, 34, 34);
+    border: 1px solid rgb(204, 204, 204);
+    padding: 2px 4px;
 }
 
+.hidden { display: none; }
 
 /* Make sure that the map has no padding */
 .grid.by-county .cell.map-container { padding-right: 0; }
@@ -60,7 +63,6 @@
 section.statewide { margin-bottom: 2em; }
 section.statewide { padding: 0 3em; }
 section.by-county {
-  padding-top: 1em;
   background-color: rgb(240, 240, 240);
 }
 
@@ -100,3 +102,95 @@ section.by-county > h2 {
 }
 
 .location-selector div { text-align: center; margin-bottom: 0.5em;}
+
+.filters {
+  background-color: rgb(238, 238, 238);
+  padding: 5px 8px;
+  margin: 0 0 5px 0;
+  border-radius: 4px;
+}
+
+.or-text {
+  line-height: 28px;
+  text-align: center;
+}
+
+.search {
+    background-color: rgb(238, 238, 238);
+    padding: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.form-control {
+    display: inline-block;
+    width: 100%;
+    height: 28px;
+    padding: 3px 6px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: rgb(34, 34, 34);
+    vertical-align: middle;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(146, 154, 163);
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.form-control:focus {
+    border-color: rgb(255, 204, 32);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 204, 32, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 204, 32, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 204, 32, 0.6);
+}
+
+.form-button {
+    display: inline-block;
+    font-family: inherit;
+    padding: 3px 6px;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-transform: none;
+    background-image: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.form-button-blue {
+    color: rgb(34, 34, 34);
+    background-color: rgb(68, 171, 223);
+    border-color: rgb(62, 103, 176);
+}
+
+.form-button-slate {
+    color: rgb(34, 34, 34);
+    background-color: rgb(207, 204, 199);
+    border-color: rgb(146, 154, 163);
+}

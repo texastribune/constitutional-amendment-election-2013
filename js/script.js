@@ -1,5 +1,32 @@
 // models
 
+var Region = Backbone.Model.extend({
+    pointInRegion: function(point) {
+        var x = point[0];
+        var y = point[1];
+        var vs = [];
+
+        _.each(this.get('geometry').coordinates, function(v) {
+            if (v.length === 1) { v = _.flatten(v, true); }
+
+            vs.push(v);
+        });
+
+        vs = _.flatten(vs, true);
+
+        var inside = false;
+        for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+            var xi = vs[i][0], yi = vs[i][1];
+            var xj = vs[j][0], yj = vs[j][1];
+
+            var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+
+        return inside;
+    }
+});
+
 var Result = Backbone.Model.extend({
     parse: function(res) {
         res['in_favor'] = _.random(0, 200);
@@ -47,6 +74,19 @@ var Propsition = Backbone.Model.extend({
 
 // collections
 
+var Regions = Backbone.Collection.extend({
+    model: Region,
+
+    findEnclosingRegion: function(point) {
+        var found_region = this.find(function(r) {
+            return r.pointInRegion(point);
+        });
+
+        return found_region;
+    }
+});
+
+
 var Results = Backbone.Collection.extend({
     model: Result,
 
@@ -64,6 +104,7 @@ var Propsitions = Backbone.Collection.extend({
     }
 });
 
+var regions = new Regions();
 var results = new Results();
 var stateResults = new Results();
 var propositions = new Propsitions();
@@ -91,13 +132,20 @@ var GeolocateView = Backbone.View.extend({
 
     events: {
         'click .find-me': 'htmlGeolocate',
-        'submit .geo-search': 'addressGeolocate'
+        'click .search': 'addressGeolocate'
+    },
+
+    initialize: function() {
+        if (!navigator.geolocation) {
+            this.$('.find-me').hide();
+        }
     },
 
     locate: function(point) {
         $('#load-indicator').toggleClass('hidden');
-        regions.determineActiveRegion(point);
-        activePoint.set('point', point);
+        var found = regions.findEnclosingRegion(point);
+
+        countySelectorView.selectCounty(found.get('properties').key);
     },
 
     htmlGeolocate: function(e) {
@@ -120,24 +168,29 @@ var GeolocateView = Backbone.View.extend({
             url: '//open.mapquestapi.com/nominatim/v1/search?format=json&countrycodes=us&limit=1&addressdetails=1&q=' + request,
             cache: false,
             dataType: 'jsonp',
-            jsonp: 'json_callback',
-            success: function(response) {
-                result = response[0];
-                if (result === undefined) {
+            jsonp: 'json_callback'
+        })
+        .done(function(response) {
+            result = response[0];
+            if (result === undefined) {
                 alert('A location could not be found. Please try searching with a ZIP Code.');
+                $('#load-indicator').toggleClass('hidden');
                 return false;
-                } else {
-                    var lat = result.lat;
-                    var lon = result.lon;
-                    var state = result.address.state;
-                    if (state !== 'Texas') {
-                        alert('The address that returned is not in Texas. Please try making your query more detailed.');
-                        return false;
-                    }
-
-                    locate([lon, lat]);
+            } else {
+                var lat = result.lat;
+                var lon = result.lon;
+                var state = result.address.state;
+                if (state !== 'Texas') {
+                    alert('The address that returned is not in Texas. Please try making your query more detailed.');
+                    $('#load-indicator').toggleClass('hidden');
+                    return false;
                 }
+
+                locate([lon, lat]);
             }
+        })
+        .fail(function() {
+            alert('The attempt to find your location failed. Please try again.');
         });
     }
 });
@@ -261,20 +314,29 @@ var CountySelectorView = Backbone.View.extend({
         'change': 'selectCounty'
     },
 
-    selectCounty: function(e) {
-        var val = this.$el.val();
+    selectCounty: function(county) {
+        var val;
+
+        if (county) {
+            val = county;
+        } else {
+            val = this.$el.val();
+        }
         if (val === '') {
           return;
         }
-        results.fetch({data: {county: this.$el.val()}});
+        results.fetch({data: {county: val}});
 
         propositions.selectCounty(val);
+
+        this.$el.val(val);
     }
 });
 
 // bootstrap
 
 var mapView = new MapView();
+var GeolocateView = new GeolocateView();
 var resultContainerView = new ResultContainerView();
 var stateResultsContainerView = new StateResultContainerView();
 var countySelectorView = new CountySelectorView();
@@ -283,3 +345,4 @@ var allShapesView = new AllShapesView();
 stateResults.fetch({reset: true});
 results.fetch({reset: true});
 propositions.fetch({reset: true, data: {prop: 6}});
+regions.reset(counties.features);

@@ -375,3 +375,9 @@ stateResults.fetch({reset: true});
 results.fetch({reset: true});
 propositions.fetch({reset: true, data: {prop: 6}});
 regions.reset(counties.features);
+
+if (jQuery(window).width() < 540) {
+    $('#map')[0].style.display = 'none';
+    var resultContainer = $('#result-container').parent()[0];
+    resultContainer.className = 'cell w-12 sidebar';
+}

@@ -83,6 +83,11 @@ section.by-county {
 .sidebar .race-data .vote { font-size: 0.75em; }
 .race-data .vote .in-favor { padding-left: 0.75em; }
 .race-data .vote .against { display: block; float: right; padding-right: 0.75em; }
+
+.result-container .race-meta {
+    font-size: 0.8em;
+}
+
 .race-meta { font-family: Helvetica, sans-serif; margin-bottom: 0.25em;}
 .race-meta h3 {
   font-size: 1.2em;

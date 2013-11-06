@@ -1,3 +1,9 @@
+// helpers
+
+function commas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // models
 
 var Region = Backbone.Model.extend({
@@ -61,13 +67,6 @@ var Result = Backbone.Model.extend({
 });
 
 var Propsition = Backbone.Model.extend({
-    parse: function(res) {
-        res['in_favor'] = _.random(0, 400);
-        res['against'] = _.random(0, 400);
-
-        return res;
-    },
-
     idAttribute: 'county',
 
     initialize: function() {
@@ -118,6 +117,7 @@ var Regions = Backbone.Collection.extend({
 
 var Results = Backbone.Collection.extend({
     model: Result,
+    comparator: 'race',
 
     url: '//tranquil-sierra-7858.herokuapp.com/api/location/?callback=?'
 });
@@ -330,6 +330,7 @@ var StateResultContainerView = Backbone.View.extend({
     },
 
     render: function() {
+        (new StatePrecinctsReportingView({model: stateResults.at(0)})).render();
         var compiledView = new CompiledResultView({collection: stateResults});
         this.$el.append(compiledView.render().el);
         return this;
@@ -360,6 +361,17 @@ var CountySelectorView = Backbone.View.extend({
 
         this.$el.val(val);
     }
+});
+
+var StatePrecinctsReportingView = Backbone.View.extend({
+  el: 'section.statewide h2 small',
+  template: _.template('<%= precincts_reported %> of <%= total_precincts %> precincts reporting'),
+
+  render: function() {
+    if (this.model === undefined) { return this; }
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  }
 });
 
 // bootstrap

@@ -54,6 +54,14 @@
     padding: 2px 4px;
 }
 
+.map-container h2 {
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 5px 0 0 0;
+}
+
 .hidden { display: none; }
 
 /* Make sure that the map has no padding */
@@ -75,6 +83,11 @@ section.by-county {
 .sidebar .race-data .vote { font-size: 0.75em; }
 .race-data .vote .in-favor { padding-left: 0.75em; }
 .race-data .vote .against { display: block; float: right; padding-right: 0.75em; }
+
+.result-container .race-meta {
+    font-size: 0.8em;
+}
+
 .race-meta { font-family: Helvetica, sans-serif; margin-bottom: 0.25em;}
 .race-meta h3 {
   font-size: 1.2em;
@@ -93,6 +106,7 @@ section.by-county {
 
 
 section.statewide > h2 { margin-bottom: .5em; }
+section.statewide > h2 > small { display: block; color: #333; font-weight: normal; }
 section.statewide > h2,
 section.by-county > h2 {
   text-align: center;
@@ -130,7 +144,6 @@ section.by-county > h2 {
 
 .location-selector div { text-align: center; margin-bottom: 0.5em;}
 
-<<<<<<< HEAD
 .filters {
   background-color: rgb(238, 238, 238);
   padding: 5px 8px;

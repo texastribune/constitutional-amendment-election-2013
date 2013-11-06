@@ -28,17 +28,35 @@ var Region = Backbone.Model.extend({
 });
 
 var Result = Backbone.Model.extend({
-    parse: function(res) {
-        res['in_favor'] = _.random(0, 200);
-        res['total_votes'] = _.random(200, 400);
-
-        return res;
-    },
-
     idAttribute: 'race',
+
+    getRaceDescription: function() {
+      var map = {
+        'Prop 1': "Ad valorem tax exempt of homestead for one's spouse killed in action",
+        'Prop 2': "Eliminate the State Medical Board and its Education Fund",
+        'Prop 3': "Extend # of days that aircraft parts are exempt from ad valorem tax",
+        'Prop 4': "Exempt from ad valorem tax of donated home to a disabled vet",
+        'Prop 5': "Authorize reverse mortgage loans when purchasing homestead property",
+        'Prop 6': "Create a State Water Implementation Fund",
+        'Prop 7': "Authorize home-rule cities to fill vacancy procedures in charter",
+        'Prop 8': "Repeal TX Constitution's max tax rate for a Hidalgo Co hosp district",
+        'Prop 9': "Expand potential sanctions against a judge or justice"
+      };
+      return map[this.get('race')];
+    },
 
     getPercentageFor: function() {
         return (this.get('in_favor') / this.get('total_votes')) * 100;
+    },
+
+    getPercentageForDisplay: function() {
+      var r = this.getPercentageFor().toFixed(2);
+      return isNaN(r) ? 0 : r;
+    },
+
+    getPercentageAgainstDisplay: function() {
+      var r = this.getPercentageFor().toFixed(2);
+      return isNaN(r) ? 0 : (100 - r).toFixed(2);
     }
 });
 
@@ -59,8 +77,19 @@ var Propsition = Backbone.Model.extend({
         });
         if(found) {
             this.set('shape', found.geometry);
-            this.set('layer', L.geoJson(this.get('shape')));
+            var name = here.get('county');
+            this.set('layer', L.geoJson(this.get('shape'), {onEachFeature: _.bind(this.clickOnShape, name)}));
         }
+    },
+
+    clickOnShape: function(feature, layer) {
+        var here = this;
+        layer.on('click', function(e) {
+            var name = '';
+            _.each(here, function(a){name=name+a});
+            results.fetch({data: {county: name}});
+            propositions.selectCounty(name);
+        });
     },
 
     isPassing: function() {

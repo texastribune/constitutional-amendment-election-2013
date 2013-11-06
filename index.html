@@ -16,21 +16,21 @@
 
 <div class="wrapper content-wrapper">
 <section id="site_content" class="content bare">
-    <div class="grid">
-        <header>
-          <h1>Build Page</h1>
-          <ul class="meta separator clearfix">
-            <li class="byline">by <a href="http://www.texastribune.org/about/staff/ryan-murphy/">Ryan Murphy</a> and Dan Hill</li>
-            <li>November 5, 2013</li>
-          </ul>
-        </header>
-    </div>
+    <header class="title">
+      <h1>2013 Constitutional Amendment Election Results</h1>
+    </header>
 
-    <div class="grid">
-        <div class="cell w-12 prose">
-        <p>You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don't know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it out. Now we took an oath, that I'm breaking now. We said we'd say it was the snow that killed the other two, but it wasn't. Nature is lethal but it doesn't hold a candle to man.</p>
-        </div>
-    </div>
+    <section class="intro">
+      <p class="prose">
+        Texans voted on nine proposed amendments to the state constitution on
+        Tuesday. Use the map below to see how they voted — statewide and by
+        county — on each of those measures. Select a county by clicking on it or
+        by finding it in the drop-down menu. The fate of each amendment — both
+        in raw votes and in percentage — will appear adjacent to the map. The
+        results and the map will be constantly updated with election returns
+        reported by the Texas Secretary of State.
+      </p>
+    </section>
 
     <section class="statewide">
       <h2>Statewide Results</h2>
@@ -337,8 +337,20 @@
     </section>
 
 
+    <footer class="meta">
+      <div class="source">
+        <strong>Source</strong> <a href="http://www.sos.state.tx.us/">Texas Secretary of State</a>
+      </div>
+
+      <div class="built-by">
+        <strong>Built by</strong>
+        <a href="http://www.texastribune.org/about/staff/ryan-murphy/">Ryan Murphy</a>,
+        <a href="http://www.texastribune.org/about/staff/tswicegood/">Travis Swicegood</a>,
+        and Dan Hill
+      </div>
+    </footer>
+
     <div class="grid">
-        Source: <a href="http://www.sos.state.tx.us/">Texas Secretary of State</a>
     </div>
 
     <script type="text/template" id="result-header-template">
@@ -360,10 +372,24 @@
     </script>
 
     <script type="text/template" id="result-template">
-        <div><%= race %></div>
-        <div class="row">
-            <div class="for-fill" style="width: <%= this.model.getPercentageFor() %>%;"></div>
+      <div class="race-data">
+        <div class="race-meta">
+          <h3>
+            <%= race %>
+            <small><%= this.model.getRaceDescription() %></small>
+          </h3>
+          <span class="total">Total Votes <%= this.model.get('total_votes') %></span>
+          (For: <%= this.model.get('in_favor') %> / Against <%= this.model.get('against') %>)
         </div>
+
+        <div class="row vote">
+          <div class="for-fill" style="width: <%= this.model.getPercentageFor() %>%;">
+            <span class="in-favor"><%= this.model.getPercentageForDisplay() %>%</span>
+          </div>
+          <span class="against"><%= this.model.getPercentageAgainstDisplay() %>%</span>
+          &nbsp;
+        </div>
+      </div>
     </script>
 
 </section>

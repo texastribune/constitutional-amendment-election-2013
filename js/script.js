@@ -1,13 +1,6 @@
 // models
 
 var Result = Backbone.Model.extend({
-    parse: function(res) {
-        res['in_favor'] = _.random(0, 200);
-        res['total_votes'] = _.random(200, 400);
-
-        return res;
-    },
-
     idAttribute: 'race',
 
     getRaceDescription: function() {

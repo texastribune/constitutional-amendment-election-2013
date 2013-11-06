@@ -1,13 +1,6 @@
 // models
 
 var Result = Backbone.Model.extend({
-    parse: function(res) {
-        res['in_favor'] = _.random(0, 200);
-        res['total_votes'] = _.random(200, 400);
-
-        return res;
-    },
-
     idAttribute: 'race',
 
     getRaceDescription: function() {
@@ -30,11 +23,13 @@ var Result = Backbone.Model.extend({
     },
 
     getPercentageForDisplay: function() {
-      return this.getPercentageFor().toFixed(2);
+      var r = this.getPercentageFor().toFixed(2);
+      return isNaN(r) ? 0 : r;
     },
 
     getPercentageAgainstDisplay: function() {
-      return (100 - this.getPercentageForDisplay()).toFixed(2);
+      var r = this.getPercentageFor().toFixed(2);
+      return isNaN(r) ? 0 : (100 - r).toFixed(2);
     }
 });
 

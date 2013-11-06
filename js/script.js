@@ -74,7 +74,7 @@ var Propsition = Backbone.Model.extend({
         var found = _.find(counties.features, function(c) {
             return c.properties.key === here.get('county');
         });
-        if(found) {
+        if(found && !this.get('layer')) {
             this.set('shape', found.geometry);
             var name = here.get('county');
             this.set('layer', L.geoJson(this.get('shape'), {onEachFeature: _.bind(this.clickOnShape, name)}));
@@ -239,10 +239,10 @@ var ShapeView = Backbone.View.extend({
 
     alterAppearance: function() {
         var color = this.model.isPassing() ? '#117bb8' : '#a98d5a';
-        this.model.get('layer').setStyle(
-            _.extend(this.baseStyle, {fillColor
-                : color})
-        );
+        var base = this.baseStyle;
+        this.model.get('layer').setStyle( function() {
+            return _.extend(base, {fillColor: color});
+        });
     }
 });
 
@@ -368,6 +368,10 @@ var StatePrecinctsReportingView = Backbone.View.extend({
   el: 'section.statewide h2 small',
   template: _.template('<%= commas(precincts_reported) %> of <%= commas(total_precincts) %> precincts reporting'),
 
+  initialize: function() {
+    this.listenTo(this.model, 'change', this.render);
+  },
+
   render: function() {
     if (this.model === undefined) { return this; }
     this.$el.html(this.template(this.model.toJSON()));
@@ -388,6 +392,13 @@ stateResults.fetch({reset: true});
 results.fetch({reset: true});
 propositions.fetch({reset: true, data: {prop: 6}});
 regions.reset(counties.features);
+
+setInterval(function() {
+    stateResults.fetch();
+    results.fetch({data: {county: $('#county-select').val()}});
+    propositions.fetch({data: {prop: 6}});
+}, 1000 * 60);
+
 
 if (jQuery(window).width() < 540) {
     $('#map')[0].style.display = 'none';

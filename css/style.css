@@ -54,6 +54,14 @@
     padding: 2px 4px;
 }
 
+.map-container h2 {
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 5px 0 0 0;
+}
+
 .hidden { display: none; }
 
 /* Make sure that the map has no padding */

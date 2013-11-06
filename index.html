@@ -361,12 +361,12 @@
         <table class="tt-table">
           <tr>
             <th>Precincts Reporting</th>
-            <td><%= precincts_reported %>/<%= total_precincts %></td>
+            <td><%= commas(precincts_reported) %>/<%= commas(total_precincts) %></td>
           </tr>
 
           <tr>
             <th>Total Votes</th>
-            <td><%= total_votes %></td>
+            <td><%= commas(total_votes) %></td>
           </tr>
         </table>
       </div>
@@ -379,8 +379,8 @@
             <%= race %>
             <small><%= this.model.getRaceDescription() %></small>
           </h3>
-          <span class="total">Total Votes <%= this.model.get('total_votes') %></span>
-          (For: <%= this.model.get('in_favor') %> / Against: <%= this.model.get('against') %>)
+          <span class="total">Total Votes <%= commas(this.model.get('total_votes')) %></span>
+          (For: <%= commas(this.model.get('in_favor')) %> / Against: <%= commas(this.model.get('against')) %>)
         </div>
 
         <div class="row vote">

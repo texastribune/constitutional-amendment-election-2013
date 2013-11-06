@@ -365,7 +365,7 @@ var CountySelectorView = Backbone.View.extend({
 
 var StatePrecinctsReportingView = Backbone.View.extend({
   el: 'section.statewide h2 small',
-  template: _.template('<%= precincts_reported %> of <%= total_precincts %> precincts reporting'),
+  template: _.template('<%= commas(precincts_reported) %> of <%= commas(total_precincts) %> precincts reporting'),
 
   render: function() {
     if (this.model === undefined) { return this; }

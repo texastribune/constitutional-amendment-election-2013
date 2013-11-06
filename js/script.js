@@ -10,8 +10,31 @@ var Result = Backbone.Model.extend({
 
     idAttribute: 'race',
 
+    getRaceDescription: function() {
+      var map = {
+        'Prop 1': "Ad valorem tax exempt of homestead for one's spouse killed in action",
+        'Prop 2': "Eliminate the State Medical Board and its Education Fund",
+        'Prop 3': "Extend # of days that aircraft parts are exempt from ad valorem tax",
+        'Prop 4': "Exempt from ad valorem tax of donated home to a disabled vet",
+        'Prop 5': "Authorize reverse mortgage loans when purchasing homestead property",
+        'Prop 6': "Create a State Water Implementation Fund",
+        'Prop 7': "Authorize home-rule cities to fill vacancy procedures in charter",
+        'Prop 8': "Repeal TX Constitution's max tax rate for a Hidalgo Co hosp district",
+        'Prop 9': "Expand potential sanctions against a judge or justice"
+      };
+      return map[this.get('race')];
+    },
+
     getPercentageFor: function() {
         return (this.get('in_favor') / this.get('total_votes')) * 100;
+    },
+
+    getPercentageForDisplay: function() {
+      return this.getPercentageFor().toFixed(2);
+    },
+
+    getPercentageAgainstDisplay: function() {
+      return (100 - this.getPercentageForDisplay()).toFixed(2);
     }
 });
 

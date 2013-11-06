@@ -68,6 +68,29 @@ section.by-county {
   background-color: rgb(240, 240, 240);
 }
 
+.race-data { margin-bottom: 1em; }
+.race-data .vote span { color: white; }
+.sidebar .race-data .vote { font-size: 0.75em; }
+.race-data .vote .in-favor { padding-left: 0.75em; }
+.race-data .vote .against { display: block; float: right; padding-right: 0.75em; }
+.race-meta { font-family: Helvetica, sans-serif; margin-bottom: 0.25em;}
+.race-meta h3 {
+  font-size: 1.2em;
+  margin-bottom: 0.25em;
+  font-style: italic;
+}
+
+.race-meta h3 small {
+  font-size: 1.0em;
+  color: #444;
+  font-style: normal;
+}
+
+.sidebar .race-meta h3 small { display: none; }
+.sidebar .race-meta span { display: block; }
+
+
+section.statewide > h2 { margin-bottom: .5em; }
 section.statewide > h2,
 section.by-county > h2 {
   text-align: center;

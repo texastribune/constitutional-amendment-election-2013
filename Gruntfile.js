@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
     cssmin: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("isoDateTime") %> */\n'
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("isoDateTime") %> */'
       },
       dist: {
         files: {

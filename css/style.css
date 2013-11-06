@@ -101,6 +101,7 @@ section.by-county {
 
 
 section.statewide > h2 { margin-bottom: .5em; }
+section.statewide > h2 > small { display: block; color: #333; font-weight: normal; }
 section.statewide > h2,
 section.by-county > h2 {
   text-align: center;

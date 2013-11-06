@@ -324,6 +324,7 @@ var StateResultContainerView = Backbone.View.extend({
     },
 
     render: function() {
+        (new StatePrecinctsReportingView({model: stateResults.at(0)})).render();
         var compiledView = new CompiledResultView({collection: stateResults});
         this.$el.append(compiledView.render().el);
         return this;
@@ -354,6 +355,17 @@ var CountySelectorView = Backbone.View.extend({
 
         this.$el.val(val);
     }
+});
+
+var StatePrecinctsReportingView = Backbone.View.extend({
+  el: 'section.statewide h2 small',
+  template: _.template('<%= precincts_reported %> of <%= total_precincts %> precincts reporting'),
+
+  render: function() {
+    if (this.model === undefined) { return this; }
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  }
 });
 
 // bootstrap

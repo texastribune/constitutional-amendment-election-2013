@@ -61,13 +61,6 @@ var Result = Backbone.Model.extend({
 });
 
 var Propsition = Backbone.Model.extend({
-    parse: function(res) {
-        res['in_favor'] = _.random(0, 400);
-        res['against'] = _.random(0, 400);
-
-        return res;
-    },
-
     idAttribute: 'county',
 
     initialize: function() {

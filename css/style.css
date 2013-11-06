@@ -248,6 +248,10 @@ footer.meta { color: #999; }
 footer.meta a { font-weight: normal; }
 
 .mapLegendContainer {
+  width: 175px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom:10px;
 }
 

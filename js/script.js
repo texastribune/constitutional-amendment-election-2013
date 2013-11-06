@@ -111,6 +111,7 @@ var Regions = Backbone.Collection.extend({
 
 var Results = Backbone.Collection.extend({
     model: Result,
+    comparator: 'race',
 
     url: '//tranquil-sierra-7858.herokuapp.com/api/location/?callback=?'
 });

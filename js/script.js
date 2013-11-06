@@ -346,7 +346,7 @@ var CountySelectorView = Backbone.View.extend({
     selectCounty: function(county) {
         var val;
 
-        if (county) {
+        if (county && !_.isObject(county)) {
             val = county;
         } else {
             val = this.$el.val();

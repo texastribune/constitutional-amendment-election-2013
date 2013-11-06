@@ -88,6 +88,11 @@ var Propsition = Backbone.Model.extend({
             _.each(here, function(a){name=name+a});
             results.fetch({data: {county: name}});
             propositions.selectCounty(name);
+            _.each($('#county-select').children(), function(a, i) {
+                if (a.value === name) {
+                    $('#county-select')[0].selectedIndex = i;
+                }
+            });
         });
     },
 
